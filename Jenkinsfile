@@ -17,10 +17,11 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("${IMAGE_NAME}:${TAG}")
+                    sh 'sudo docker build -t ${IMAGE_NAME}:${TAG} .'
                 }
             }
         }
+
 
         stage('Push Docker Image') {
             steps {
