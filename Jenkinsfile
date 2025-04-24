@@ -17,9 +17,6 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Copie .env dans le contexte si nécessaire (optionnel si déjà dans le repo)
-                    sh 'cp .env ./'
-
                     docker.build("${IMAGE_NAME}:${TAG}")
                 }
             }
