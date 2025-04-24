@@ -9,7 +9,9 @@ pipeline {
 
     stage('Checkout Code') {
         steps {
+            //git credentialsId: 'my-git-token-ok', branch: 'main', url: 'https://github.com/cynthia783/post.git'
             git credentialsId: 'my-git-token-ok', branch: 'main', url: 'https://github.com/cynthia783/post.git'
+
         }
     }
 
