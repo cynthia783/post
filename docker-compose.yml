@@ -26,13 +26,13 @@ services:
     environment:
       POSTGRES_PASSWORD: postiz-password
       POSTGRES_USER: postiz-user
-      POSTGRES_DB: postiz-db-local
+      POSTGRES_DB: postiz-db-test
     volumes:
       - postgres-volume:/var/lib/postgresql/data
     networks:
       - postiz-network
     healthcheck:
-      test: pg_isready -U postiz-user -d postiz-db-local
+      test: pg_isready -U postiz-user -d postiz-db-test
       interval: 10s
       timeout: 3s
       retries: 3
