@@ -7,14 +7,12 @@ pipeline {
         DOCKER_HUB_CREDENTIALS = 'dockerhub-post-id' // ID à configurer dans Jenkins
     }
 
-    stage('Checkout Code') {
-        steps {
-            //git credentialsId: 'my-git-token-ok', branch: 'main', url: 'https://github.com/cynthia783/post.git'
-            git credentialsId: 'my-git-token-ok', branch: 'main', url: 'https://github.com/cynthia783/post.git'
-
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git credentialsId: 'my-git-token-ok', branch: 'main', url: 'https://github.com/cynthia783/post.git'
+            }
         }
-    }
-
 
         stage('Build Docker Image') {
             steps {
@@ -49,7 +47,7 @@ pipeline {
                 }
             }
         }
-    
+    }
 
     post {
         success {
