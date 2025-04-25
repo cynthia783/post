@@ -47,9 +47,9 @@ pipeline {
                 script {
                     // Redémarre les conteneurs avec la nouvelle image
                     sh '''
-                        docker compose down
-                        docker compose pull
-                        docker compose up -d
+                        docker-compose down
+                        docker-compose pull
+                        docker-compose up -d
                     '''
                 }
             }
