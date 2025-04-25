@@ -1,6 +1,6 @@
 services:
   postiz:
-    image: cynthia783/postiz-custom:latest
+    image: cynthia783/post:latest
     container_name: postiz
     restart: always   
     env_file:
