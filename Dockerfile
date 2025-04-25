@@ -8,7 +8,7 @@ COPY .env /app/.env
 WORKDIR /app
 
 # Installe les dépendances si nécessaire
-# RUN npm install
+RUN npm install
 
 # Expose les ports nécessaires
 EXPOSE 5000 3000

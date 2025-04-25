@@ -1,8 +1,8 @@
 pipeline {
-    agent { label 'test-agent-jenkins' } // Remplace par le label réel de ton agent Jenkins
+    agent { label 'agent-jenkins' } // Remplace par le label réel de ton agent Jenkins
 
     environment {
-        IMAGE_NAME = 'cynthia783/postiz-custom'
+        IMAGE_NAME = 'cynthia783/post'
         TAG = 'latest'
         DOCKER_HUB_CREDENTIALS = 'dockerhub-post-id' // ID à configurer dans Jenkins
     }
@@ -13,6 +13,15 @@ pipeline {
                 git credentialsId: 'my-git-token-ok', branch: 'main', url: 'https://github.com/cynthia783/post.git'
             }
         }
+
+    stage('Clean old images') {
+        steps {
+            script {
+                sh 'docker system prune -f'
+            }
+        }
+    }
+
 
         stage('Build Docker Image') {
             steps {
