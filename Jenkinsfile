@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'test-jenkins' } // Remplace par le label réel de ton agent Jenkins
+    agent { label 'test-agent-jenkins' } // Remplace par le label réel de ton agent Jenkins
 
     environment {
         IMAGE_NAME = 'cynthia783/postiz-custom'
@@ -17,7 +17,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'sudo docker build -t ${IMAGE_NAME}:${TAG} .'
+                    sh 'docker build -t ${IMAGE_NAME}:${TAG} .'
                 }
             }
         }
