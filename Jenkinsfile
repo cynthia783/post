@@ -58,7 +58,7 @@ pipeline {
             }
         }*/
 
-        stage('Deploy with docker-compose') {
+        /*stage('Deploy with docker-compose') {
             steps {
                 script {
                     // Redémarre les conteneurs avec la nouvelle image
@@ -70,7 +70,7 @@ pipeline {
                 }
             }
         }
-    }
+    }*/
 
     post {
         success {
