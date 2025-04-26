@@ -16,19 +16,18 @@ pipeline {
         }
 
     stage('SonarQube Analysis') {
-    steps {
-        withSonarQubeEnv('SonarQube') { // Le nom que tu as donné à ton serveur SonarQube dans Jenkins
-            sh '''
-                sonar-scanner \
-                -Dsonar.projectKey=post \
-                -Dsonar.sources=. \
-                -Dsonar.host.url=http://localhost:9000 \
-                -Dsonar.login=<TON_TOKEN>
-            '''
+        steps {
+            withSonarQubeEnv('SonarQube') {
+                sh """
+                    sonar-scanner \
+                    -Dsonar.projectKey=post \
+                    -Dsonar.sources=. \
+                    -Dsonar.host.url=http://localhost:9000 \
+                    -Dsonar.login=${env.SONAR_TOKEN}
+                """
+            }
         }
     }
-}
-
 
     stage('Clean old images') {
         steps {
