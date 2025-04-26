@@ -49,7 +49,7 @@ pipeline {
             }
         }
 
-        stage(' Analysis - Docker Image') {
+        stage(' Trivy Analysis - Docker Image - Report HTML') {
             steps {
                 script {
                 sh '''
