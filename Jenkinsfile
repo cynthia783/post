@@ -49,13 +49,25 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis - Docker Image') {
+        stage('Trivy Analysis - Docker Image - Report HTML') {
             steps {
                 script {
                     // Utilisation de Trivy ou un autre scanner pour analyser l'image Docker
                     // Exemple avec Trivy pour scanner la sécurité de l'image Docker
-                    sh 'trivy image --exit-code 0 --severity HIGH,CRITICAL ${IMAGE_NAME}:${TAG}'
+                    sh """
+                        trivy image --exit-code 0 --severity HIGH,CRITICAL \  
+                        --format template --template "@/contrib/html.tpl" \ 
+                        -o trivy-report.html ${IMAGE_NAME}:${TAG}
+                        """
                 }
+                archiveArtifacts artifacts: 'trivy-report.html', allowEmptyArchive: true
+                    publishHTML([
+                        reportName: 'Trivy Scan Report',
+                        reportDir: '.',
+                        reportFiles: 'trivy-report.html',
+                        keepAll: true,
+                        alwaysLinkToLastBuild: true
+                    ])
             }
         }
 
