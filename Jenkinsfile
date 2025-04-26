@@ -100,5 +100,8 @@ pipeline {
         failure {
             echo "Le pipeline a échoué. Vérifie les logs."
         }
+        always {
+            archiveArtifacts artifacts: 'trivy-report.html', fingerprint: true
+        }
     }
 }
