@@ -16,7 +16,7 @@ pipeline {
             }
         }
 
-    stage('SonarQube Analysis') {
+    stage('SonarQube Analysis - code source') {
         steps {
             withSonarQubeEnv('SonarQube') {
                 withCredentials([string(credentialsId: 'sonar-token-test', variable: 'SONAR_TOKEN')]) {
@@ -49,6 +49,15 @@ pipeline {
             }
         }
 
+        stage('SonarQube Analysis - Docker Image') {
+            steps {
+                script {
+                    // Utilisation de Trivy ou un autre scanner pour analyser l'image Docker
+                    // Exemple avec Trivy pour scanner la sécurité de l'image Docker
+                    sh 'trivy image --exit-code 1 --severity HIGH,CRITICAL ${IMAGE_NAME}:${TAG}'
+                }
+            }
+        }
 
         /*stage('Push Docker Image') {
             steps {
@@ -60,7 +69,7 @@ pipeline {
             }
         }*/
 
-        /*stage('Deploy with docker-compose') {
+        stage('Deploy with docker-compose') {
             steps {
                 script {
                     // Redémarre les conteneurs avec la nouvelle image
@@ -71,7 +80,7 @@ pipeline {
                     '''
                 }
             }
-        }*/
+        }
     }
 
     post {
