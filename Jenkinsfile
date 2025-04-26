@@ -6,6 +6,7 @@ pipeline {
         TAG = 'latest'
         DOCKER_HUB_CREDENTIALS = 'dockerhub-post-id' // ID à configurer dans Jenkins
         SONARQUBE = 'sonarqube'
+        SONAR_TOKEN = credentials('sonar-token-test')
     }
 
     stages {
@@ -23,7 +24,7 @@ pipeline {
                     -Dsonar.projectKey=post \
                     -Dsonar.sources=. \
                     -Dsonar.host.url=http://localhost:9000 \
-                    -Dsonar.login=${env.SONAR_TOKEN}
+                    -Dsonar.login=${SONAR_TOKEN}
                 """
             }
         }
