@@ -54,7 +54,7 @@ pipeline {
                 script {
                 sh '''
                     trivy image --exit-code 0 --severity HIGH,CRITICAL \
-                    --format template --template "@/contrib/html.tpl" \
+                    --format template --template "@trivy/html.tpl" \
                     -o trivy-report.html ${IMAGE_NAME}:${TAG}
                 '''
                 }
