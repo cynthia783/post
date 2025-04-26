@@ -49,7 +49,7 @@ pipeline {
         }
 
 
-        stage('Push Docker Image') {
+        /*stage('Push Docker Image') {
             steps {
                 withDockerRegistry([credentialsId: DOCKER_HUB_CREDENTIALS, url: '']) {
                     script {
@@ -57,7 +57,7 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
 
         stage('Deploy with docker-compose') {
             steps {
