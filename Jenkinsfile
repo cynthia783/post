@@ -53,7 +53,7 @@ pipeline {
             steps {
                 script {
                 sh '''
-                    trivy image --exit-code 0 --severity \
+                    trivy image --exit-code 0 \
                     --format template --template "@trivy/html.tpl" \
                     -o trivy-report.html ${IMAGE_NAME}:${TAG}
                 '''
