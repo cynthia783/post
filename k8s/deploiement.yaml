@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postiz-deployment
+  name: post-deployment
 spec:
   replicas: 1  # Pour un déploiement de base, tu peux augmenter le nombre de replicas plus tard
   selector:
     matchLabels:
-      app: postiz
+      app: post
   template:
     metadata:
       labels:
-        app: postiz
+        app: post
     spec:
       containers:
-        - name: postiz
+        - name: post
           image: cynthia783/post:latest  # Ton image Docker buildée
           ports:
             - containerPort: 5000  # Port sur lequel ton application écoute
