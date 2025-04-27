@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postiz-service
+spec:
+  selector:
+    app: postiz
+  ports:
+    - protocol: TCP
+      port: 80      # Le port exposé par le service Kubernetes
+      targetPort: 5000  # Port de l'application dans le conteneur
+      nodePort: 30000    # Port externe sur Minikube
+  type: NodePort    # Expose le service avec un NodePort

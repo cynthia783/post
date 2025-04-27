@@ -7,6 +7,7 @@ pipeline {
         DOCKER_HUB_CREDENTIALS = 'dockerhub-post-id' // ID à configurer dans Jenkins
         SONARQUBE = 'sonarqube'
         SONAR_TOKEN = credentials('sonar-token-test')
+        KUBERNETES_CLUSTER = 'minikube'  // Utilisation de Minikube comme cluster Kubernetes
     }
 
     stages {
@@ -67,6 +68,34 @@ pipeline {
                     keepAll: true,
                     alwaysLinkToLastBuild: true
                 ])
+            }
+        }
+
+        stage('Deploy to Kubernetes (Minikube)') {
+            steps {
+                script {
+                    // Démarre Minikube si ce n'est pas déjà fait
+                    sh 'minikube start'
+
+                    // Configure l'environnement Kubernetes pour Minikube
+                    sh 'eval $(minikube -p minikube docker-env)'
+
+                    // Appliquer le ConfigMap
+                    sh 'kubectl apply -f k8s/configmap.yaml'
+
+                    // Appliquer les fichiers Kubernetes (deployment et service)
+                    sh 'kubectl apply -f k8s/deployment.yaml'
+                    sh 'kubectl apply -f k8s/service.yaml'
+                }
+            }
+        }
+
+        stage('Check Deployment') {
+            steps {
+                script {
+                    // Vérifie si les pods sont en cours d'exécution
+                    sh 'kubectl get pods'
+                }
             }
         }
 

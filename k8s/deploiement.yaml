@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postiz-deployment
+spec:
+  replicas: 1  # Pour un déploiement de base, tu peux augmenter le nombre de replicas plus tard
+  selector:
+    matchLabels:
+      app: postiz
+  template:
+    metadata:
+      labels:
+        app: postiz
+    spec:
+      containers:
+        - name: postiz
+          image: cynthia783/post:latest  # Ton image Docker buildée
+          ports:
+            - containerPort: 5000  # Port sur lequel ton application écoute
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: postiz-env-configmap  # Utilisation d'un ConfigMap pour gérer les variables d'environnement
+          volumeMounts:
+            - name: postiz-config
+              mountPath: /config/
+            - name: postiz-uploads
+              mountPath: /uploads/
+      volumes:
+        - name: postiz-config
+          emptyDir: {}
+        - name: postiz-uploads
+          emptyDir: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: postiz-service
+spec:
+  selector:
+    app: postiz
+  ports:
+    - protocol: TCP
+      port: 80   # Le port exposé par le service Kubernetes
+      targetPort: 5000  # Port de l'application dans le conteneur
+  type: LoadBalancer  # Permet l'accès externe à l'application
