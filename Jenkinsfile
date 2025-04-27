@@ -94,8 +94,8 @@ pipeline {
 
                     // Appliquer les fichiers YAML pour configurer les permissions RBAC avant le déploiement
                     sh '''
-                    kubectl apply -f node-access-role.yaml
-                    kubectl apply -f node-access-binding.yaml
+                    kubectl apply -f k8s/node-access-role.yaml
+                    kubectl apply -f k8s/node-access-binding.yaml
                     '''
 
                     // Appliquer le ConfigMap
