@@ -61,14 +61,15 @@ pipeline {
                 '''
                 }
                 archiveArtifacts artifacts: 'trivy-report.html', allowEmptyArchive: true
-                publishHTML([
+                publishHTML(target: [
                     reportName: 'Trivy Scan Report',
                     reportDir: '.',
                     reportFiles: 'trivy-report.html',
                     keepAll: true,
-                    alwaysLinkToLastBuild: true
+                    alwaysLinkToLastBuild: true,
                     allowMissing: false
                 ])
+
             }
         }
 
