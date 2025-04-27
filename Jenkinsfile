@@ -86,7 +86,7 @@ pipeline {
                     sh 'kubectl apply -f k8s/configmap.yaml'
 
                     // Appliquer les fichiers Kubernetes (deployment et service)
-                    sh 'kubectl apply -f k8s/deployment.yaml'
+                    sh 'kubectl apply -f k8s/deploiement.yaml'
                     sh 'kubectl apply -f k8s/service.yaml'
                 }
             }
