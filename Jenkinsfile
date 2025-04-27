@@ -67,6 +67,7 @@ pipeline {
                     reportFiles: 'trivy-report.html',
                     keepAll: true,
                     alwaysLinkToLastBuild: true
+                    allowMissing: false
                 ])
             }
         }
