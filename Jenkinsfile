@@ -117,33 +117,6 @@ pipeline {
             }
         }
 
-        stage('Check if Report Changed and Push to GitHub') {
-            steps {
-                script {
-                    // Clone the repository
-                    sh 'git clone https://github.com/cynthia783/post.git'
-                    dir('post') {
-                        // Copie le rapport de vulnerability de trivy sur le repo git
-                        sh 'cp ../trivy-report.html ./trivy-report.html'
-                        
-                        // Check si le contenu du rapport a changé en le comparant par la précédente version
-                        def reportChanged = sh(script: "git diff --exit-code trivy-report.html", returnStatus: true)
-                        
-                        if (reportChanged != 0) {
-                            echo 'Report has changed, committing and pushing...'
-                            // Ajouter le changement sur git
-                            sh 'git add trivy-report.html'
-                            sh 'git commit -m "Update Trivy report" || echo "No changes to commit"'
-                            // Push le changement sur git
-                            sh 'git push origin main'
-                        } else {
-                            echo 'No changes in the report, skipping commit.'
-                        }
-                    }
-                }
-            }
-        }
-
         /*stage('Deploy with docker-compose') {
             steps {
                 script {
