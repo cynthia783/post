@@ -73,6 +73,16 @@ pipeline {
             }
         }
 
+        /*stage('Push Docker Image') {
+            steps {
+                withDockerRegistry([credentialsId: DOCKER_HUB_CREDENTIALS, url: '']) {
+                    script {
+                        docker.image("${IMAGE_NAME}:${TAG}").push()
+                    }
+                }
+            }
+        }*/
+
         stage('Deploy to Kubernetes (Minikube)') {
             steps {
                 script {
@@ -81,6 +91,12 @@ pipeline {
 
                     // Configure l'environnement Kubernetes pour Minikube
                     sh 'eval $(minikube -p minikube docker-env)'
+
+                    // Appliquer les fichiers YAML pour configurer les permissions RBAC avant le déploiement
+                    sh '''
+                    kubectl apply -f node-access-role.yaml
+                    kubectl apply -f node-access-binding.yaml
+                    '''
 
                     // Appliquer le ConfigMap
                     sh 'kubectl apply -f k8s/configmap.yaml'
@@ -127,16 +143,6 @@ pipeline {
                 }
             }
         }
-
-        /*stage('Push Docker Image') {
-            steps {
-                withDockerRegistry([credentialsId: DOCKER_HUB_CREDENTIALS, url: '']) {
-                    script {
-                        docker.image("${IMAGE_NAME}:${TAG}").push()
-                    }
-                }
-            }
-        }*/
 
         /*stage('Deploy with docker-compose') {
             steps {
